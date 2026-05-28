@@ -1,0 +1,22 @@
+services:
+  localstack:
+    container_name: localstack-pgvector
+    image: localstack/localstack:latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559" # External services range
+      - "127.0.0.1:8081:8081"            # pgweb UI (Exposed by extension)
+    environment:
+      - DEBUG=${DEBUG:-0}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      # Automatically install the extension from the mounted volume on startup
+      - PROVIDER_OVERRIDE_RDS=asynchronous
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./:/opt/code/localstack-extension-pgvector"
+      - "./init-extension.sh:/etc/localstack/init/ready.d/init-extension.sh"
+
+networks:
+  default:
+    name: localstack-network

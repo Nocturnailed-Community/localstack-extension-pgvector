@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -20,14 +20,20 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Intended Audience :: Developers",
 ]
+dependencies = [
+    "localstack-ext>=1.0.0",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/Nocturnailed-Community/localstack-extension-pgvector"
 "Bug Tracker" = "https://github.com/Nocturnailed-Community/localstack-extension-pgvector/issues"
 "Source Code" = "https://github.com/Nocturnailed-Community/localstack-extension-pgvector"
 
+[project.entry-points."localstack.extensions"]
+pgvector = "extension:PgVectorExtension"
+
 [tool.setuptools]
-packages = ["."]
+py-modules = ["extension"]
 
 [tool.setuptools.package-data]
 "*" = ["*.sql", "*.png"]

@@ -1,6 +1,6 @@
 # LocalStack pgvector Extension 🚀
 
-[![Install with LocalStack](https://img.shields.io/badge/install-localstack-green)](https://app.localstack.cloud/extensions/install?repository=https://github.com/Nocturnailed-Community/localstack-extension-pgvector)
+[![Install LocalStack Extension](https://localstack.cloud/gh/extension-badge.svg)](https://app.localstack.cloud/extensions/remote?url=git+https://github.com/Nocturnailed-Community/localstack-extension-pgvector/#egg=localstack-extension-pgvector)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **localstack-extension-pgvector** is a professional extension for LocalStack designed to simplify the development of AI-driven applications and Vector Search. This extension automatically enables `pgvector` on every PostgreSQL instance running in LocalStack and provides a web interface via `pgweb`.

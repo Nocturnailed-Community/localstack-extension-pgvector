@@ -1,0 +1,10 @@
+LICENSE
+README.md
+extension.py
+pyproject.toml
+localstack_extension_pgvector.egg-info/PKG-INFO
+localstack_extension_pgvector.egg-info/SOURCES.txt
+localstack_extension_pgvector.egg-info/dependency_links.txt
+localstack_extension_pgvector.egg-info/entry_points.txt
+localstack_extension_pgvector.egg-info/requires.txt
+localstack_extension_pgvector.egg-info/top_level.txt

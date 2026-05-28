@@ -1,0 +1,2 @@
+[localstack.extensions]
+pgvector = extension:PgVectorExtension

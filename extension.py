@@ -1,6 +1,7 @@
 import logging
 import os
 from localstack.extensions.api import Extension, http
+from localstack.extensions.api.http import RouteHandler, Router
 from localstack.utils.container_utils import container_client
 
 LOG = logging.getLogger(__name__)
@@ -10,6 +11,13 @@ class PgVectorExtension(Extension):
 
     def on_platform_ready(self):
         LOG.info("PgVector extension is ready!")
+
+    def update_gateway_routes(self, router: Router[RouteHandler]):
+        """
+        Officially recommended way to add routes to the LocalStack gateway.
+        """
+        LOG.info("Registering pgvector status route...")
+        router.add("/pgvector-status", self.check_status)
 
     def on_container_start(self, container_info):
         """
@@ -36,7 +44,7 @@ class PgVectorExtension(Extension):
                     
                     LOG.info(f"Successfully injected {init_sql_path} into {container_id}:{target_path}")
                     
-                    # [NEW] Launch pgweb sidecar
+                    # Launch pgweb sidecar
                     self._launch_pgweb(container_info)
                     
                 except Exception as e:
@@ -60,13 +68,8 @@ class PgVectorExtension(Extension):
             LOG.info("Starting pgweb sidecar...")
             
             # Get postgres container network info
-            # We want to connect via the container name/IP in the same network
             postgres_ip = postgres_container_info.get("NetworkSettings", {}).get("IPAddress")
-            # Fallback to localstack host if needed, but container-to-container is better
             db_url = f"postgres://postgres:postgres@{postgres_ip}:5432/postgres?sslmode=disable"
-            
-            # Note: In a real LocalStack environment, we might need to handle credentials/DB name dynamically
-            # For now, we use defaults.
             
             container_client.run_container(
                 image="sosedoff/pgweb",
@@ -80,14 +83,17 @@ class PgVectorExtension(Extension):
         except Exception as e:
             LOG.error(f"Failed to launch pgweb: {e}")
 
-    @http.route("/pgvector-status", methods=["GET"])
     def check_status(self, request):
         """
         Health check endpoint to verify the extension is loaded.
         """
-        return {
-            "status": "enabled",
-            "extension": "pgvector",
-            "pgweb_url": "http://localhost:8081",
-            "message": "LocalStack pgvector extension + pgweb are active."
-        }
+        return http.Response(
+            response={
+                "status": "enabled",
+                "extension": "pgvector",
+                "pgweb_url": "http://localhost:8081",
+                "message": "LocalStack pgvector extension + pgweb are active (Official API)."
+            },
+            status=200,
+            mimetype="application/json"
+        )

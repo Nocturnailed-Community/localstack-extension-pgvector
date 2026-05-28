@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="pgvector.png" alt="pgvector-extension Logo" width="200">
+</p>
+
 # LocalStack pgvector Extension 🚀
 
 [![Install LocalStack Extension](https://localstack.cloud/gh/extension-badge.svg)](https://app.localstack.cloud/extensions/remote?url=git+https://github.com/Nocturnailed-Community/localstack-extension-pgvector/#egg=localstack-extension-pgvector)

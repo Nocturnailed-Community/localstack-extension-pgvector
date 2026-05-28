@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "localstack-extension-pgvector"
-version = "0.1.2"
+version = "0.2.0"
 authors = [
   { name="Muhammad Ikhwan Fathulloh", email="muhammadikhwanfathulloh17@gmail.com" },
 ]
@@ -22,6 +22,7 @@ classifiers = [
 ]
 dependencies = [
     "localstack-ext>=1.0.0",
+    "psycopg2-binary>=2.9.0",
 ]
 
 [project.urls]

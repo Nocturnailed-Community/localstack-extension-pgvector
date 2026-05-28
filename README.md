@@ -74,12 +74,100 @@ For easy local development, you can use the provided `docker-compose.yml`:
 
 ---
 
-## 📊 Manual Verification
+## 📡 API Reference (v0.2.0)
 
-You can run the following query to ensure `pgvector` is enabled:
-```sql
-SELECT * FROM pg_extension WHERE extname = 'vector';
+All endpoints are accessible via `http://localhost:4566/pgvector/...`
+
+### Status
+```bash
+curl http://localhost:4566/pgvector/status
 ```
+
+### Table Management
+
+**List tables:**
+```bash
+curl http://localhost:4566/pgvector/tables
+```
+
+**Create a table (with vector column):**
+```bash
+curl -X POST http://localhost:4566/pgvector/tables \
+  -H "Content-Type: application/json" \
+  -d '{
+    "table_name": "documents",
+    "columns": [
+      {"name": "id", "type": "SERIAL PRIMARY KEY"},
+      {"name": "content", "type": "TEXT"},
+      {"name": "embedding", "type": "vector(3)"}
+    ]
+  }'
+```
+
+**Get table schema:**
+```bash
+curl http://localhost:4566/pgvector/tables/documents/schema
+```
+
+**Drop a table:**
+```bash
+curl -X DELETE http://localhost:4566/pgvector/tables/documents
+```
+
+### Data Operations
+
+**Insert rows:**
+```bash
+curl -X POST http://localhost:4566/pgvector/tables/documents/data \
+  -H "Content-Type: application/json" \
+  -d '{
+    "rows": [
+      {"content": "Hello AI", "embedding": "[1,2,3]"},
+      {"content": "Vector DB", "embedding": "[4,5,6]"}
+    ]
+  }'
+```
+
+**Get rows (with pagination):**
+```bash
+curl "http://localhost:4566/pgvector/tables/documents/data?limit=10&offset=0"
+```
+
+**Update rows:**
+```bash
+curl -X PUT http://localhost:4566/pgvector/tables/documents/data \
+  -H "Content-Type: application/json" \
+  -d '{"set": {"content": "Updated"}, "where": "id = 1"}'
+```
+
+**Delete rows:**
+```bash
+curl -X DELETE http://localhost:4566/pgvector/tables/documents/data \
+  -H "Content-Type: application/json" \
+  -d '{"where": "id = 1"}'
+```
+
+### Raw SQL Query
+```bash
+curl -X POST http://localhost:4566/pgvector/query \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT * FROM pg_extension WHERE extname = '\''vector'\'';"}'
+```
+
+### 🔍 Vector Similarity Search
+```bash
+curl -X POST http://localhost:4566/pgvector/search \
+  -H "Content-Type: application/json" \
+  -d '{
+    "table_name": "documents",
+    "column": "embedding",
+    "query_vector": [1, 2, 3],
+    "distance": "cosine",
+    "limit": 5
+  }'
+```
+
+**Supported distance metrics:** `cosine`, `l2`, `inner_product`
 
 ---
 

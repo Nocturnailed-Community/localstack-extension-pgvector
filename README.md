@@ -40,9 +40,22 @@ localstack extensions install "https://github.com/Nocturnailed-Community/localst
    ```
 3. Restart LocalStack.
 
+### 🐳 Using Docker Compose
+
+For easy local development, you can use the provided `docker-compose.yml`:
+
+1.  Start LocalStack:
+    ```bash
+    docker compose up -d
+    ```
+2.  The extension will be installed automatically. Check status:
+    ```bash
+    curl http://localhost:4566/pgvector-status
+    ```
+
 ---
 
-## 🚀 Usage
+## 🛠️ Usage
 
 1. **Start LocalStack:**
    ```bash

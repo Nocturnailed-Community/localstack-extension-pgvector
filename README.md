@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="pgvector.png" alt="pgvector-extension Logo" width="200">
+  <img src="https://raw.githubusercontent.com/Nocturnailed-Community/localstack-extension-pgvector/main/pgvector.png" alt="pgvector-extension Logo" width="200">
 </p>
 
 # LocalStack pgvector Extension 🚀
